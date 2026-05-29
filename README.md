@@ -5,6 +5,14 @@
 
 FocusGuard uses your webcam and Gemma 4 (running locally via LM Studio) to monitor signs of eye strain, poor posture, and mental fatigue during long screen sessions — then delivers wellness tips as gentle in-app notifications.
 
+## 📸 Demo Preview
+
+### Web Dashboard & Live Monitor
+![FocusGuard Web Dashboard](static/images/screencapture.png)
+
+### Chrome Extension Background Monitor
+![FocusGuard Chrome Extension](static/images/extension-screencapture.png)
+
 ---
 
 ## Problem Statement
