@@ -69,6 +69,37 @@ Visit `http://localhost:5000`
 
 ---
 
+## Chrome Extension
+
+FocusGuard ships as a Chrome Extension for OS-level notifications that appear
+even when the browser is minimized — solving the missed-notification problem
+of web push entirely.
+
+### How to install
+
+1. Open Chrome and go to `chrome://extensions`
+2. Enable **Developer Mode** (top right toggle)
+3. Click **Load unpacked**
+4. Select the `extension/` folder from this repo
+5. Pin FocusGuard to your toolbar
+
+### How it works
+
+- Click the ⬡ icon in Chrome toolbar to open the popup
+- Set your preferred check interval (1 min for demo, 10 min for real use)
+- Click **Start Monitoring**
+- Chrome Alarms API fires checks in the background — even if you switch tabs
+- Each check captures your webcam, sends to local Flask on `localhost:5000`
+- Gemma 4 analyzes locally and fires a native OS notification with your wellness tip
+- High fatigue notifications **stay on screen until dismissed**
+
+### Privacy
+
+All webcam frames are sent only to `localhost:5000`.
+No data leaves your machine at any point.
+
+---
+
 ## Architecture
 
 ```
