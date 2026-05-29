@@ -200,6 +200,9 @@ function scheduleNextCheck() {
 
 btnStart.addEventListener('click', async () => {
   if (!monitoring) {
+    if ('Notification' in window && Notification.permission === 'default') {
+      await Notification.requestPermission();
+    }
     const ok = await startCamera();
     if (!ok) return;
     monitoring = true;
@@ -208,6 +211,8 @@ btnStart.addEventListener('click', async () => {
     btnCheck.disabled = false;
     setStatus('Monitoring', false);
     startSessionTimer();
+    // Immediate visual feedback + push notification test
+    showToast('FocusGuard Active', 'Mental wellness monitoring started.', 'success');
     // Run first check after 3s
     setTimeout(() => { if (monitoring) runAnalysis().then(() => scheduleNextCheck()); }, 3000);
   } else {
@@ -251,9 +256,36 @@ function showToast(title, body, type = 'success') {
   toast.setAttribute('role', 'alert');
   toast.innerHTML = `<div class="toast-title">${title}</div><div class="toast-body">${body}</div>`;
   container.appendChild(toast);
+
+  // Native desktop push notification
+  showDesktopNotification(title, body);
+
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transition = 'opacity 0.4s';
     setTimeout(() => toast.remove(), 400);
   }, 5000);
+}
+
+function showDesktopNotification(title, body) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      new Notification(title, { body: body });
+    } catch (e) {
+      console.warn('Native notification failed:', e);
+    }
+  }
+}
+
+// Request notification permission immediately on load to make it highly visible
+if ('Notification' in window) {
+  if (Notification.permission === 'default') {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        showToast('Notifications Enabled', 'You will receive wellness alerts directly on your desktop!', 'success');
+      }
+    });
+  } else if (Notification.permission === 'granted') {
+    console.log('FocusGuard desktop notifications are enabled.');
+  }
 }

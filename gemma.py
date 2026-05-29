@@ -73,7 +73,7 @@ def analyze_frame(image_b64: str) -> dict:
             }
         ],
         "temperature": 0.4,
-        "max_tokens": 512
+        "max_tokens": 2048
     }
 
     try:
